@@ -1,1 +1,1 @@
-from .AniLibriaAPI import Title
+from .AniLibriaAPI import AnilibriaApiV2
