@@ -11,6 +11,7 @@ class AnilibriaApiV2:
     url = 'https://api.anilibria.tv/v2/'
 
     def __init__(self, proxies=None):
+        self.__proxy = proxies
         self.__s = requests.Session()
         self.__s.proxies = proxies
 
@@ -54,7 +55,17 @@ class AnilibriaApiV2:
 
     async def getTitleAsync(self, id: int) -> Title:
         async with aiohttp.ClientSession() as session:
-            async with session.get(self.url + 'getTitle', params=dict({'id': id})) as get:
+            async with session.get(self.url + 'getTitle', params=dict({'id': id}), proxy=self.__proxy) as get:
+                answer = await get.json()
+                await session.close()
+                if 'error' in answer:
+                    raise Exception(f'API Error: {(answer["error"]["code"])} | {(answer["error"]["message"])}')
+
+                return Title(**answer)
+
+    async def getRandomTitleAsync(self, **param) -> Title:
+        async with aiohttp.ClientSession() as session:
+            async with session.get(self.url + 'getRandomTitle', params=param, proxy=self.__proxy) as get:
                 answer = await get.json()
                 await session.close()
                 if 'error' in answer:

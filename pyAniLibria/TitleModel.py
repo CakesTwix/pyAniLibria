@@ -36,7 +36,7 @@ class Team(BaseModel):
 
 
 class Season(BaseModel):
-    season_string: str
+    season_string: Optional[str] = None
     season_code: int
     year: int
     week_day: int
