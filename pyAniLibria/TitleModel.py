@@ -20,11 +20,11 @@ class Poster(BaseModel):
 
 
 class Type(BaseModel):
-    full_string: str
+    full_string: Optional[str] = None
     code: int
     string: Any
     series: int
-    length: str
+    length: Optional[str] = None
 
 
 class Team(BaseModel):
@@ -46,6 +46,54 @@ class Blocked(BaseModel):
     blocked: bool
     bakanim: bool
 
+class Hosts(BaseModel):
+    hls: str
+
+class Series(BaseModel):
+    first: int
+    last: int
+    string: str
+
+class Hls(BaseModel):
+    fhd: Optional[str] = None
+    hd: Optional[str] = None
+    sd: str
+
+class Playlist(BaseModel):
+    id: int
+    hls: Hls
+
+
+class Player(BaseModel):
+    alternative_player: Optional[str] = None
+    hosts: Hosts
+    series: Series
+    playlist: dict
+
+class Quality(BaseModel):
+    string: str
+    type: str
+    resolution: int
+    encoder: str
+    lq_audio: bool
+
+class List_(BaseModel):
+    torrent_id: int
+    series: Series
+    quality: Quality
+    leechers: int
+    seeders: int
+    downloads: int
+    total_size: int
+    url: str
+    uploaded_timestamp: int
+    metadata: Optional[int] = None
+    raw_base64_file: Any
+
+class Torrents(BaseModel):
+    series: Series
+    list: List[List_]
+    
 
 class Title(BaseModel):
     id: int
@@ -53,13 +101,14 @@ class Title(BaseModel):
     announce: Any
     status: Status
     poster: Poster
-    updated: int
+    updated: Optional[int] = None
     last_change: int
     type: Type
     genres: List
     team: Team
     season: Season
-    description: str
+    description: Optional[str] = None
     in_favorites: int
     blocked: Blocked
-    # Доделай
+    player: Player
+    torrents: Torrents
