@@ -16,7 +16,7 @@ class AnilibriaApiV2:
         self.__s.proxies = proxies
 
     def getTitle(self, id: int):
-        answer = self.__s.get(self.url + 'getTitle', params=dict({'id': id})).json()
+        answer = self.__s.get(self.url + 'getTitle', params=dict({'id': id}), proxies=self.__proxy).json()
         if 'error' in answer:
             raise Exception(f'API Error: {(answer["error"]["code"])} | {(answer["error"]["message"])}')
         return Title(**answer)
@@ -24,31 +24,31 @@ class AnilibriaApiV2:
     def getTitles(self, **param):
         if 'id_list' in param:
             param['id_list'] = ', '.join(param['id_list'])
-        answer = self.__s.get(self.url + 'getTitles', params=param).json()
+        answer = self.__s.get(self.url + 'getTitles', params=param, proxies=self.__proxy).json()
         if 'error' in answer:
             raise Exception(f'API Error: {(answer["error"]["code"])} | {(answer["error"]["message"])}')
         return [Title(**line) for line in answer]
 
     def getUpdates(self, **param):
-        answer = self.__s.get(self.url + 'getUpdates', params=param).json()
+        answer = self.__s.get(self.url + 'getUpdates', params=param, proxies=self.__proxy).json()
         if 'error' in answer:
             raise Exception(f'API Error: {(answer["error"]["code"])} | {(answer["error"]["message"])}')
         return [Title(**line) for line in answer]
 
     def getChanges(self, **param):
-        answer = self.__s.get(self.url + 'getChanges', params=param).json()
+        answer = self.__s.get(self.url + 'getChanges', params=param, proxies=self.__proxy).json()
         if 'error' in answer:
             raise Exception(f'API Error: {(answer["error"]["code"])} | {(answer["error"]["message"])}')
         return [Title(**line) for line in answer]
 
     def getRandomTitle(self, **param):
-        answer = self.__s.get(self.url + 'getRandomTitle', params=param).json()
+        answer = self.__s.get(self.url + 'getRandomTitle', params=param, proxies=self.__proxy).json()
         if 'error' in answer:
             raise Exception(f'API Error: {(answer["error"]["code"])} | {(answer["error"]["message"])}')
         return Title(**answer)
 
     def searchTitles(self, **param):
-        answer = self.__s.get(self.url + 'searchTitles', params=param).json()
+        answer = self.__s.get(self.url + 'searchTitles', params=param, proxies=self.__proxy).json()
         if 'error' in answer:
             raise Exception(f'API Error: {(answer["error"]["code"])} | {(answer["error"]["message"])}')
         return [Title(**line) for line in answer]
